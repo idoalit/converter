@@ -1,0 +1,29 @@
+{
+  "name": "hendrowicaksono/persneling",
+  "type": "library",
+  "description": "API framework for SLiMS",
+  "keywords": ["framework"],
+  "homepage": "https://github.com/slims",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Hendro Wicaksono",
+      "email": "hendrowicaksono@gmail.com"
+    },
+    {
+      "name": "SLiMS Developers Community",
+      "homepage": "https://github.com/slims"
+    }
+  ],
+
+  "autoload": {
+    "psr-4": {
+      "Slims\\":"src/"
+    }
+  },
+
+  "require": {
+    "vlucas/valitron": "^1.2"
+  }
+
+}

@@ -1,5 +1,6 @@
 <?php
 namespace Slims\Bibliography\Models;
+use Slims\Masterfile\Models\Gmd as GMD;
 
 class Collection
 {

@@ -1,5 +1,6 @@
 <?php
 namespace Slims\Bibliography;
+use Slims\Bibliography\Models\Collection as MC;
 
 class Collection
 {
@@ -35,7 +36,7 @@ class Collection
 
   protected function get_newColl()
   {
-    return $this->coll;
+    return (object) $this->coll;
   }
 
   protected function set_title($title=NULL)
@@ -79,12 +80,18 @@ class Collection
     #$this->setTitle($cid);
     #$this->getIs_newcoll();
     if (is_null($this->get_cid())) {
-      echo 'Buku baru';
+      #echo 'Buku baru';
       $this->set_newColl();
       return $this->get_newColl();
     } else {
       echo 'Edit Buku';
     }
   }
+
+  public function collection_save($dbs, $coll)
+  {
+    MC::collection_save($dbs, $coll);
+  }
+
 
 }

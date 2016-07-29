@@ -22,7 +22,7 @@
     }
   },
 
-  "minimum-stability": "dev",
+  "minimum-stability": "stable",
 
   "require": {
     "vlucas/valitron": "^1.2"

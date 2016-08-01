@@ -11,4 +11,11 @@ use Slims\Persneling\Masterfile\Models\Gmd as GMD;
 $gmd = new GMD;
 #var_dump();
 
-echo $gmd->count_gmd($dbs);
+echo $gmd->countgmd($dbs, 'WHERE gmd_name=\'Text\'').'<hr />';
+echo '<pre>';
+print_r($gmd->showGmdList($dbs, 'WHERE gmd_name=\'Text\''));
+echo '</pre>';
+
+if (empty($gmd->showGmdList($dbs, 'WHERE gmd_name=\'Text\''))) {
+  echo '<hr />kosong melompong';
+}

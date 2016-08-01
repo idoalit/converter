@@ -55,7 +55,7 @@ class Gmd
     return TRUE;
   }
 
-  public function countgmd($dbs, $query = NULL)
+  public function countGmd($dbs, $query = NULL)
   {
     $base = 'SELECT COUNT(*) FROM mst_gmd';
     $sql = $base.' '.$query;
@@ -71,17 +71,19 @@ class Gmd
     }
   }
 
-  public function show_gmdList($dbs)
+  public function showGmdList($dbs, $query = NULL)
   {
-    $s_sgmd_c = 'SELECT COUNT(*) FROM mst_gmd';
-    $q_sgmd_c = $dbs->query($s_sgmd_c);
-    $r_sgmd_c = $q_sgmd_c->fetch(\PDO::FETCH_ASSOC);
+    $base = 'SELECT * FROM mst_gmd';
+    $sql = $base.' '.$query;
+    $stm = $dbs->query($sql);
+    $res = $stm->fetchAll(\PDO::FETCH_ASSOC);
+    if (empty($res)) {
+      return FALSE;
+      die('kosooong');
+    } else {
+      return array ('gmdlist' => $res);
 
-    $s_sgmd = 'SELECT * FROM mst_gmd';
-    $q_sgmd = $dbs->query($s_sgmd);
-    $r_sgmd = $q_sgmd->fetchAll(PDO::FETCH_ASSOC);
-    $this->set_gmd($r_sgmd);
-    #$this->get_gmd();    
+    }
   }
 
   public function search_gmd($dbs, $gmd_name)

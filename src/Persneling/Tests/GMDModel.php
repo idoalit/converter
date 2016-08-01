@@ -8,12 +8,27 @@ $dbs->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 
 class GmdTest extends PHPUnit_Framework_TestCase
 {
-  public function testCountgmd ()
+
+  public function testCountGmd ()
   {
     global $dbs;
     $gmdmodel = new GMDModel;
     #$this->assertTrue($itungan->tambah());
-    $this->assertEquals(32, $gmdmodel->countgmd($dbs));
+    #$this->assertEquals(31, $gmdmodel->countgmd($dbs));
+    $this->assertGreaterThan(0, $gmdmodel->countgmd($dbs));
+    $this->assertGreaterThan(0, $gmdmodel->countgmd($dbs, 'WHERE gmd_name=\'Text\''));
+    $this->assertFalse($gmdmodel->countgmd($dbs, 'WHERE gmd_name=\'xxxyyyzzz\''));
+  }
+
+  public function testShowGmdList ()
+  {
+    global $dbs;
+    $gmdmodel = new GMDModel;
+    #$this->assertTrue($itungan->tambah());
+    #$this->assertEquals(31, $gmdmodel->countgmd($dbs));
+    $this->assertGreaterThan(0, $gmdmodel->countgmd($dbs));
+    $this->assertGreaterThan(0, $gmdmodel->countgmd($dbs, 'WHERE gmd_name=\'Text\''));
+    $this->assertFalse($gmdmodel->countgmd($dbs, 'WHERE gmd_name=\'xxxyyyzzz\''));
   }
 
   public function testTesting ()

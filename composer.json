@@ -26,7 +26,10 @@
 
   "require": {
     "vlucas/valitron": "^1.2"
-  }
+  },
 
+  "require-dev": {
+    "phpunit/phpunit": "4.8.*"
+  }
 
 }

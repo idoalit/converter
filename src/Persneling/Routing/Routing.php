@@ -1,8 +1,8 @@
 <?php
-namespace Slims\Bibliography;
-use Slims\Bibliography\Models\Collection as MC;
+namespace Slims\Routing;
+#use Slims\Bibliography\Models\Collection as MC;
 
-class Collection
+class Routing
 {
   #public $is_newcoll = TRUE;
   public $cid = NULL;

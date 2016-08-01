@@ -50,8 +50,33 @@ class Gmd
   #  return $this->gmd_id;
   #}
 
+  public function testing()
+  {
+    return TRUE;
+  }
+
+  public function countgmd($dbs, $query = NULL)
+  {
+    $base = 'SELECT COUNT(*) FROM mst_gmd';
+    $sql = $base.' '.$query;
+    $stm = $dbs->query($sql);
+    $res = $stm->fetch(\PDO::FETCH_ASSOC);
+    foreach ($res as $key => $value) {
+      $counter = $value;
+    }
+    if ($counter > 0) {
+      return $counter;
+    } else {
+      return FALSE;
+    }
+  }
+
   public function show_gmdList($dbs)
   {
+    $s_sgmd_c = 'SELECT COUNT(*) FROM mst_gmd';
+    $q_sgmd_c = $dbs->query($s_sgmd_c);
+    $r_sgmd_c = $q_sgmd_c->fetch(\PDO::FETCH_ASSOC);
+
     $s_sgmd = 'SELECT * FROM mst_gmd';
     $q_sgmd = $dbs->query($s_sgmd);
     $r_sgmd = $q_sgmd->fetchAll(PDO::FETCH_ASSOC);

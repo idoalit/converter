@@ -11,11 +11,21 @@ use Slims\Persneling\Masterfile\Models\Gmd as GMD;
 $gmd = new GMD;
 #var_dump();
 
-echo $gmd->countgmd($dbs, 'WHERE gmd_name=\'Text\'').'<hr />';
-echo '<pre>';
-print_r($gmd->showGmdList($dbs, 'WHERE gmd_name=\'Text\''));
-echo '</pre>';
+#echo $gmd->countgmd($dbs, 'WHERE gmd_name=\'Text\'').'<hr />';
+#echo '<pre>';
+#$gmdlist = $gmd->showGmdList($dbs);
 
-if (empty($gmd->showGmdList($dbs, 'WHERE gmd_name=\'Text\''))) {
-  echo '<hr />kosong melompong';
+#print_r($gmdlist);
+#echo '</pre>';
+#if (!$gmdlist) {
+#  echo 'wkwkwk';
+#}
+$gmd_id = $gmd->createGmd($dbs, 'Text');
+#var_dump($gmd_id);
+#die('ehem');
+if ($gmd_id == FALSE) {
+  echo 'sudah ada';
+} else {
+  echo 'Belum ada, tapi sudah ditambahkan dengan gmd_id: '.$gmd_id;
 }
+

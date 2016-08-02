@@ -77,13 +77,7 @@ class Gmd
     $sql = $base.' '.$query;
     $stm = $dbs->query($sql);
     $res = $stm->fetchAll(\PDO::FETCH_ASSOC);
-    if (empty($res)) {
-      return FALSE;
-      die('kosooong');
-    } else {
-      return array ('gmdlist' => $res);
-
-    }
+    return $res;
   }
 
   public function search_gmd($dbs, $gmd_name)
@@ -117,17 +111,17 @@ class Gmd
     }
   }
 
-  public function create_gmd($dbs, $gmd_name)
+  public function createGmd($dbs, $gmd_name)
   {
-    $s_sgmd = 'INSERT INTO mst_gmd (gmd_name) VALUES (\''.$gmd_name.'\')';
-    $q_sgmd = $dbs->query($s_sgmd);
-    $gmd_id = $dbs->lastInsertId();
-    #$this->set_gmdId($r_sgmd['gmd_id']);
-    #echo $this->get_gmdId();
-    #$this->set_gmdName($r_sgmd['gmd_name']);
-    #return $this->get_gmd();
-    #return $this->get_gmdId();
-    return $gmd_id;
+    $is_exist = $this->countGmd($dbs, 'WHERE gmd_name=\''.$gmd_name.'\'');
+    if (!$is_exist) {
+      $s_sgmd = 'INSERT INTO mst_gmd (gmd_name) VALUES (\''.$gmd_name.'\')';
+      $q_sgmd = $dbs->query($s_sgmd);
+      $gmd_id = $dbs->lastInsertId();
+      return $gmd_id;
+    } else {
+      return FALSE;
+    }
   }
 
 

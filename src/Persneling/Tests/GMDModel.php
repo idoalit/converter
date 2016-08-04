@@ -39,6 +39,13 @@ class GmdTest extends PHPUnit_Framework_TestCase
     #$this->assertGreaterThan(0, $this->gmdmodel->createGmd($this->dbs, 'Disertasi'));
   }
 
+  public function testGetGmdIdByName ()
+  {
+    $this->assertGreaterThan(0, $this->gmdmodel->getGmdIdByName($this->dbs, 'Text'));
+    $this->assertFalse($this->gmdmodel->getGmdIdByName($this->dbs, 'xxxyyyzzz'));
+
+  }
+
   public function testTesting ()
   {
     $gmdmodel = new GMDModel;

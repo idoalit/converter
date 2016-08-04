@@ -20,12 +20,12 @@ $gmd = new GMD;
 #if (!$gmdlist) {
 #  echo 'wkwkwk';
 #}
-$gmd_id = $gmd->createGmd($dbs, 'Text');
-#var_dump($gmd_id);
+$gmd = $gmd->getGmdIdByName($dbs, 'Text');
+var_dump($gmd);
 #die('ehem');
-if ($gmd_id == FALSE) {
-  echo 'sudah ada';
-} else {
-  echo 'Belum ada, tapi sudah ditambahkan dengan gmd_id: '.$gmd_id;
-}
+#if ($gmd_id == FALSE) {
+#  echo 'sudah ada';
+#} else {
+#  echo 'Belum ada, tapi sudah ditambahkan dengan gmd_id: '.$gmd_id;
+#}
 

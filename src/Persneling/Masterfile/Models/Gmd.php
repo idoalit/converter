@@ -25,9 +25,10 @@ class Gmd
     $this->gmd_name = $value;
   }
 
-  public function tereak()
+  public static function tereak()
   {
-    #return 'EHLOOOO';
+    return 'EHLOOOO';
+    #die('hmmmm');
   }
 
   public function get_gmdId()
@@ -106,8 +107,17 @@ class Gmd
     }
   }
 
-  public function getCreateGmdIdByName($dbs, $gmd_name)
+  public function fgetGmdIdByName($dbs, $gmd_name)
   {
+    $sql = 'SELECT * FROM mst_gmd WHERE gmd_name=\''.$gmd_name.'\'';
+    $stm = $dbs->query($sql);
+    $res = $stm->fetch(\PDO::FETCH_ASSOC);
+    if (empty($res)) {
+      #return FALSE;
+      return $this->createGmd($dbs, $gmd_name);
+    } else {
+      return $res['gmd_id'];
+    }
   }
 
 

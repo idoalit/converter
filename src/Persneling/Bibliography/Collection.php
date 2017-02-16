@@ -35,6 +35,17 @@ class Collection
     $this->set_gmdName();
     $this->set_edition();
     $this->set_isbnIssn();
+    $this->set_publishYear();
+    $this->set_collation();
+    $this->set_seriesTitle();
+    $this->set_callNumber();
+    $this->set_source();
+    $this->set_classification();
+    $this->set_notes();
+    $this->set_specDetailInfo();
+    $this->set_inputDate();
+    $this->set_lastUpdate();
+    $this->set_uid();
   }
 
   protected function get_newColl()
@@ -65,6 +76,61 @@ class Collection
   protected function set_isbnIssn($isbn_issn=NULL)
   {
     $this->coll['isbn_issn'] = $isbn_issn;
+  }
+
+  protected function set_publishYear($publish_year=NULL)
+  {
+    $this->coll['publish_year'] = $publish_year;
+  }
+
+  protected function set_collation($collation=NULL)
+  {
+    $this->coll['collation'] = $collation;
+  }
+
+  protected function set_seriesTitle($series_title=NULL)
+  {
+    $this->coll['series_title'] = $series_title;
+  }
+
+  protected function set_callNumber($call_number=NULL)
+  {
+    $this->coll['call_number'] = $call_number;
+  }
+
+  protected function set_source($source=NULL)
+  {
+    $this->coll['source'] = $source;
+  }
+
+  protected function set_classification($classification=NULL)
+  {
+    $this->coll['classification'] = $classification;
+  }
+
+  protected function set_notes($notes=NULL)
+  {
+    $this->coll['notes'] = $notes;
+  }
+
+  protected function set_specDetailInfo($spec_detail_info=NULL)
+  {
+    $this->coll['spec_detail_info'] = $spec_detail_info;
+  }
+
+  protected function set_inputDate($new=TRUE)
+  {
+    $this->coll['input_date'] = date("Y-m-d H:i:s");
+  }
+
+  protected function set_lastUpdate($new=TRUE)
+  {
+    $this->coll['last_update'] = date("Y-m-d H:i:s");
+  }
+
+  protected function set_uid($uid=1)
+  {
+    $this->coll['uid'] = $uid;
   }
 
   #protected function newCollection()
@@ -110,6 +176,7 @@ class Collection
   {
     $mc = new MC;
     $mc->collection_save($dbs, $coll);
+    #die('sinikah 3');
   }
 
 

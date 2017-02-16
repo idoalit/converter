@@ -15,29 +15,30 @@ class Publisher
     #echo 'Slims\Bibliography\Collection()';
   }
 
-  public function set_gmdId($value)
+  public function set_publisherId($value)
   {
-    $this->gmd_id = $value;
+    $this->publisher_id = $value;
   }
 
-  public function set_gmdName($value)
+  public function set_publisherName($value)
   {
-    $this->gmd_name = $value;
+    $this->publisher_name = $value;
   }
 
-  public function tereak()
+  public static function tereak()
   {
-    #return 'EHLOOOO';
+    return 'EHLOOOO';
+    #die('hmmmm');
   }
 
-  public function get_gmdId()
+  public function get_publisherId()
   {
-    return $this->gmd_id;
+    return $this->publisher_id;
   }
 
-  public function get_gmdName()
+  public function get_publisherName()
   {
-    return $this->gmd_name;
+    return $this->publisher_name;
   }
 
   #public function set_gmdId($data)
@@ -50,59 +51,74 @@ class Publisher
   #  return $this->gmd_id;
   #}
 
-  public function show_gmdList($dbs)
+  public function testing()
   {
-    $s_sgmd = 'SELECT * FROM mst_gmd';
-    $q_sgmd = $dbs->query($s_sgmd);
-    $r_sgmd = $q_sgmd->fetchAll(PDO::FETCH_ASSOC);
-    $this->set_gmd($r_sgmd);
-    #$this->get_gmd();    
+    return TRUE;
   }
 
-  public function search_gmd($dbs, $gmd_name)
+  public function countPublisher($dbs, $query = NULL)
   {
-    $s_sgmd_c = 'SELECT COUNT(*) FROM mst_gmd WHERE gmd_name=\''.$gmd_name.'\'';
-    $q_sgmd_c = $dbs->query($s_sgmd_c);
-    #die($s_sgmd);
-    $r_sgmd_c = $q_sgmd_c->fetch(\PDO::FETCH_ASSOC);
-    #sprint_r ($r_sgmd_c);
-    foreach ($r_sgmd_c as $key => $value) {
-      echo $value.'<hr />';
-      $c_sgmd_c = $value;
+    $base = 'SELECT COUNT(*) FROM mst_publisher';
+    $sql = $base.' '.$query;
+    $stm = $dbs->query($sql);
+    $res = $stm->fetch(\PDO::FETCH_ASSOC);
+    foreach ($res as $key => $value) {
+      $counter = $value;
     }
-    #die($c_sgmd_c);
-    if ($c_sgmd_c > 0) {
-      $s_sgmd = 'SELECT * FROM mst_gmd WHERE gmd_name=\''.$gmd_name.'\'';
-      $q_sgmd = $dbs->query($s_sgmd);
-      $r_sgmd = $q_sgmd->fetch(\PDO::FETCH_ASSOC);
-      #print_r($r_sgmd);
-      #die('lari kesini?');
-      #$this->gmd_id = $r_sgmd['gmd_id'];
-      $this->set_gmdId($r_sgmd['gmd_id']);
-      #echo $this->get_gmdId();
-      $this->set_gmdName($r_sgmd['gmd_name']);
-      #echo $this->get_gmdName();
-      #return $this->get_gmd();
-      #die($this->gmd_id);
-      return $this->get_gmdId();
+    if ($counter > 0) {
+      return $counter;
     } else {
       return FALSE;
     }
   }
 
-  public function create_gmd($dbs, $gmd_name)
+  public function showPublisherList($dbs, $query = NULL)
   {
-    $s_sgmd = 'INSERT INTO mst_gmd (gmd_name) VALUES (\''.$gmd_name.'\')';
-    $q_sgmd = $dbs->query($s_sgmd);
-    $gmd_id = $dbs->lastInsertId();
-    #$this->set_gmdId($r_sgmd['gmd_id']);
-    #echo $this->get_gmdId();
-    #$this->set_gmdName($r_sgmd['gmd_name']);
-    #return $this->get_gmd();
-    #return $this->get_gmdId();
-    return $gmd_id;
+    $base = 'SELECT * FROM mst_publisher';
+    $sql = $base.' '.$query;
+    $stm = $dbs->query($sql);
+    $res = $stm->fetchAll(\PDO::FETCH_ASSOC);
+    return $res;
   }
 
+
+  public function createPublisher($dbs, $publisher_name)
+  {
+    $is_exist = $this->countGmd($dbs, 'WHERE publisher_name=\''.$publisher_name.'\'');
+    if (!$is_exist) {
+      $s_spublisher = 'INSERT INTO mst_publisher (publisher_name) VALUES (\''.$publisher_name.'\')';
+      $q_spublisher = $dbs->query($s_spublisher);
+      $publisher_id = $dbs->lastInsertId();
+      return $publisher_id;
+    } else {
+      return FALSE;
+    }
+  }
+
+  public function getGmdIdByName($dbs, $gmd_name)
+  {
+    $sql = 'SELECT * FROM mst_gmd WHERE gmd_name=\''.$gmd_name.'\'';
+    $stm = $dbs->query($sql);
+    $res = $stm->fetch(\PDO::FETCH_ASSOC);
+    if (empty($res)) {
+      return FALSE;
+    } else {
+      return $res['gmd_id'];
+    }
+  }
+
+  public function fgetGmdIdByName($dbs, $gmd_name)
+  {
+    $sql = 'SELECT * FROM mst_gmd WHERE gmd_name=\''.$gmd_name.'\'';
+    $stm = $dbs->query($sql);
+    $res = $stm->fetch(\PDO::FETCH_ASSOC);
+    if (empty($res)) {
+      #return FALSE;
+      return $this->createGmd($dbs, $gmd_name);
+    } else {
+      return $res['gmd_id'];
+    }
+  }
 
 
 }

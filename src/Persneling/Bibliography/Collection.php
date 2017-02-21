@@ -35,17 +35,20 @@ class Collection
     $this->set_gmdName();
     $this->set_edition();
     $this->set_isbnIssn();
+    $this->set_publisherName();
     $this->set_publishYear();
     $this->set_collation();
     $this->set_seriesTitle();
     $this->set_callNumber();
     $this->set_source();
+    $this->set_place();
     $this->set_classification();
     $this->set_notes();
     $this->set_specDetailInfo();
     $this->set_inputDate();
     $this->set_lastUpdate();
     $this->set_uid();
+    $this->set_authors();
   }
 
   protected function get_newColl()
@@ -78,6 +81,11 @@ class Collection
     $this->coll['isbn_issn'] = $isbn_issn;
   }
 
+  protected function set_publisherName($publisher_name=NULL)
+  {
+    $this->coll['publisher_name'] = $publisher_name;
+  }
+
   protected function set_publishYear($publish_year=NULL)
   {
     $this->coll['publish_year'] = $publish_year;
@@ -101,6 +109,11 @@ class Collection
   protected function set_source($source=NULL)
   {
     $this->coll['source'] = $source;
+  }
+
+  protected function set_place($place=NULL)
+  {
+    $this->coll['place'] = $place;
   }
 
   protected function set_classification($classification=NULL)
@@ -131,6 +144,14 @@ class Collection
   protected function set_uid($uid=1)
   {
     $this->coll['uid'] = $uid;
+  }
+
+  protected function set_authors($authors=array())
+  {
+    #if (empty($authors)) {
+    #} else {
+    #}
+    $this->coll['authors'] = $authors;
   }
 
   #protected function newCollection()

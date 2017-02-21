@@ -1,6 +1,9 @@
 <?php
 namespace Slims\Persneling\Bibliography\Models;
 use Slims\Persneling\Masterfile\Models\Gmd as GMD;
+use Slims\Persneling\Masterfile\Models\Publisher as Publisher;
+use Slims\Persneling\Masterfile\Models\Place as Place;
+use Slims\Persneling\Masterfile\Models\Author as Author;
 
 class Collection
 {
@@ -21,7 +24,13 @@ class Collection
     #echo $gmd->tereak();
     #echo $gmd->getGmdIdByName($dbs, "Multimedia");die();
     $_gmd_id = $gmd->fgetGmdIdByName($dbs, $col->gmd_name);
-    #die($col->gmd_name);
+    $publisher = new Publisher;
+    #die($col->publisher_name);
+    $_publisher_id = $publisher->fgetPublisherIdByName($dbs, $col->publisher_name);
+    $place = new Place;
+    #die($col->publisher_name);
+    $_place_id = $place->fgetPlaceIdByName($dbs, $col->place);
+    #die($_publisher_id);
   #  $gmd_id = $gmd->search_gmd($dbs, $col->gmd_name);
   #  echo $gmd_id;
   #  if (!$gmd_id) {
@@ -52,11 +61,13 @@ class Collection
       sor,
       edition,
       isbn_issn,
+      publisher_id,
       publish_year,
       collation,
       series_title,
       call_number,
       source,
+      publish_place_id,
       classification,
       notes,
       spec_detail_info,
@@ -69,11 +80,13 @@ class Collection
       \''.$col->sor.'\',
       \''.$col->edition.'\',
       \''.$col->isbn_issn.'\',
+      \''.$_publisher_id.'\',
       \''.$col->publish_year.'\',
       \''.$col->collation.'\',
       \''.$col->series_title.'\',
       \''.$col->call_number.'\',
       \''.$col->source.'\',
+      \''.$_place_id.'\',
       \''.$col->classification.'\',
       \''.$col->notes.'\',
       \''.$col->spec_detail_info.'\',
@@ -82,10 +95,20 @@ class Collection
       \''.$col->uid.'\'
       )
     ';
-
+    echo($s_bib);#die('hhh');
     $q_bib = $dbs->query($s_bib);
     $biblio_id = $dbs->lastInsertId();
 
+    if (empty($col->authors)) {
+      echo '<hr />kosong nih<hr />';
+    } else {
+      echo '<hr />ga kosong nih<hr />';
+      foreach ($col->authors as $k => $v) {
+        $author = new Author;
+        $author_id = $author->fgetAuthorIdByName($dbs, $v);
+        $author->createRelBiblioAuthor($dbs, $biblio_id, $author_id);
+      }
+    }
   }
 
 }

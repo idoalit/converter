@@ -4,6 +4,8 @@ use Slims\Persneling\Masterfile\Models\Gmd as GMD;
 use Slims\Persneling\Masterfile\Models\Publisher as Publisher;
 use Slims\Persneling\Masterfile\Models\Place as Place;
 use Slims\Persneling\Masterfile\Models\Author as Author;
+use Slims\Persneling\Masterfile\Models\Subject as Subject;
+use Slims\Persneling\Bibliography\Models\Item as Item;
 
 class Collection
 {
@@ -95,20 +97,41 @@ class Collection
       \''.$col->uid.'\'
       )
     ';
-    echo($s_bib);#die('hhh');
+    #echo($s_bib);#die('hhh');
     $q_bib = $dbs->query($s_bib);
     $biblio_id = $dbs->lastInsertId();
 
     if (empty($col->authors)) {
-      echo '<hr />kosong nih<hr />';
+      #echo '<hr />author kosong nih<hr />';
     } else {
-      echo '<hr />ga kosong nih<hr />';
+      #echo '<hr />author ga kosong nih<hr />';
       foreach ($col->authors as $k => $v) {
         $author = new Author;
         $author_id = $author->fgetAuthorIdByName($dbs, $v);
         $author->createRelBiblioAuthor($dbs, $biblio_id, $author_id);
       }
     }
+    if (empty($col->subjects)) {
+      #echo '<hr />subject kosong nih<hr />';
+    } else {
+      #echo '<hr />subject ga kosong nih<hr />';
+      foreach ($col->subjects as $k => $v) {
+        $subject = new Subject;
+        $subject_id = $subject->fgetSubjectIdByName($dbs, $v);
+        $subject->createRelBiblioSubject($dbs, $biblio_id, $subject_id);
+      }
+    }
+    if (empty($col->items)) {
+      #echo '<hr />Item kosong nih<hr />';
+    } else {
+      #echo '<hr />Item ga kosong nih<hr />';
+      foreach ($col->items as $k => $v) {
+        $item = new Item;
+        $item_id = $item->fgetItemIdByItemcode($dbs, $v, $biblio_id);
+        #$item->createRelBiblioSubject($dbs, $biblio_id, $subject_id);
+      }
+    }
+
   }
 
 }

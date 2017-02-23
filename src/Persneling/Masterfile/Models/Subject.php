@@ -20,9 +20,9 @@ class Subject
     $this->subject_id = $value;
   }
 
-  public function set_authorName($value)
+  public function set_subjectName($value)
   {
-    $this->author_name = $value;
+    $this->subject_name = $value;
   }
 
   public static function tereak()
@@ -31,24 +31,24 @@ class Subject
     #die('hmmmm');
   }
 
-  public function get_authorId()
+  public function get_subjectId()
   {
-    return $this->author_id;
+    return $this->subject_id;
   }
 
-  public function get_authorName()
+  public function get_subjectName()
   {
-    return $this->author_name;
+    return $this->subject_name;
   }
 
-  #public function set_authorId($data)
+  #public function set_subjectId($data)
   #{
-  #  $this->author_id = (integer) $data;
+  #  $this->subject_id = (integer) $data;
   #}
 
-  #public function get_authorId()
+  #public function get_subjectId()
   #{
-  #  return $this->author_id;
+  #  return $this->subject_id;
   #}
 
   public function testing()
@@ -56,9 +56,9 @@ class Subject
     return TRUE;
   }
 
-  public function countAuthor($dbs, $query = NULL)
+  public function countSubject($dbs, $query = NULL)
   {
-    $base = 'SELECT COUNT(*) FROM mst_author';
+    $base = 'SELECT COUNT(*) FROM mst_topic';
     $sql = $base.' '.$query;
     $stm = $dbs->query($sql);
     $res = $stm->fetch(\PDO::FETCH_ASSOC);
@@ -72,9 +72,9 @@ class Subject
     }
   }
 
-  public function countRelBiblioAuthor($dbs, $query = NULL)
+  public function countRelBiblioSubject($dbs, $query = NULL)
   {
-    $base = 'SELECT COUNT(*) FROM biblio_author';
+    $base = 'SELECT COUNT(*) FROM biblio_topic';
     $sql = $base.' '.$query;
     $stm = $dbs->query($sql);
     $res = $stm->fetch(\PDO::FETCH_ASSOC);
@@ -89,9 +89,9 @@ class Subject
   }
 
 
-  public function showAuthorList($dbs, $query = NULL)
+  public function showSubjectList($dbs, $query = NULL)
   {
-    $base = 'SELECT * FROM mst_author';
+    $base = 'SELECT * FROM mst_topic';
     $sql = $base.' '.$query;
     $stm = $dbs->query($sql);
     $res = $stm->fetchAll(\PDO::FETCH_ASSOC);
@@ -99,57 +99,65 @@ class Subject
   }
 
 
-  public function createAuthor($dbs, $author_name)
+  #public function createSubject($dbs, $subject_name)
+  public function createSubject($dbs, $subject)
   {
-    $is_exist = $this->countAuthor($dbs, 'WHERE author_name=\''.$author_name.'\'');
+    #$is_exist = $this->countSubject($dbs, 'WHERE topic=\''.$subject_name.'\'');
+    $is_exist = $this->countSubject($dbs, 'WHERE topic=\''.$subject['name'].'\'');
     if (!$is_exist) {
-      $s_sauthor = 'INSERT INTO mst_author (author_name) VALUES (\''.$author_name.'\')';
-      $q_sauthor = $dbs->query($s_sauthor);
-      $author_id = $dbs->lastInsertId();
-      return $author_id;
+      #$s_ssubject = 'INSERT INTO mst_topic (topic) VALUES (\''.$subject_name.'\')';
+      $s_ssubject = 'INSERT INTO mst_topic (topic) VALUES (\''.$subject['name'].'\')';
+      $q_ssubject = $dbs->query($s_ssubject);
+      $subject_id = $dbs->lastInsertId();
+      return $subject_id;
     } else {
       return FALSE;
     }
   }
 
-  public function getAuthorIdByName($dbs, $author_name)
+  public function getSubjectIdByName($dbs, $subject_name)
   {
-    $sql = 'SELECT * FROM mst_author WHERE author_name=\''.$author_name.'\'';
+    $sql = 'SELECT * FROM mst_topic WHERE topic=\''.$subject_name.'\'';
     $stm = $dbs->query($sql);
     $res = $stm->fetch(\PDO::FETCH_ASSOC);
     if (empty($res)) {
       return FALSE;
     } else {
-      return $res['author_id'];
+      return $res['subject_id'];
     }
   }
 
-  public function fgetAuthorIdByName($dbs, $author_name)
+  #public function fgetSubjectIdByName($dbs, $subject_name)
+  public function fgetSubjectIdByName($dbs, $subject=array())
   {
-    $sql = 'SELECT * FROM mst_author WHERE author_name=\''.$author_name.'\'';
-    #die($sql);
-    $stm = $dbs->query($sql);
-    $res = $stm->fetch(\PDO::FETCH_ASSOC);
-    #echo ($res['author_id']);
-    #die();
-    if (empty($res)) {
-    #return FALSE;
-    return $this->createAuthor($dbs, $author_name);
-    } else {
-      #die($res['author_id']);
-      #echo($res['author_id']);
-      #die('<hr />tesdah');
-      return $res['author_id'];
+    if (!empty($subject['name'])) {
+      #$sql = 'SELECT * FROM mst_topic WHERE topic=\''.$subject_name.'\'';
+      $sql = 'SELECT * FROM mst_topic WHERE topic=\''.$subject['name'].'\'';
+      #die($sql);
+      $stm = $dbs->query($sql);
+      $res = $stm->fetch(\PDO::FETCH_ASSOC);
+      #echo ($res['author_id']);
+      #die();
+      if (empty($res)) {
+      #return FALSE;
+      #return $this->createSubject($dbs, $subject_name);
+      return $this->createSubject($dbs, $subject);
+      } else {
+        #die($res['subject_id']);
+        #echo($res['subject_id']);
+        #die('<hr />tesdah');
+        return $res['topic_id'];
+      }
     }
   }
 
-  public function createRelBiblioAuthor($dbs, $biblio_id, $author_id)
+  public function createRelBiblioSubject($dbs, $biblio_id, $subject_id)
   {
-    $is_exist = $this->countRelBiblioAuthor($dbs, 'WHERE biblio_id=\''.$biblio_id.'\' AND author_id=\''.$author_id.'\'');
+    $is_exist = $this->countRelBiblioSubject($dbs, 'WHERE biblio_id=\''.$biblio_id.'\' AND topic_id=\''.$subject_id.'\'');
     if (!$is_exist) {
-      $s_sbiblioauthor = 'INSERT INTO biblio_author (biblio_id, author_id) VALUES (\''.$biblio_id.'\', \''.$author_id.'\')';
-      $q_sbiblioauthor = $dbs->query($s_sbiblioauthor);
-      $author_id = $dbs->lastInsertId();
+      $s_sbibliosubject = 'INSERT INTO biblio_topic (biblio_id, topic_id) VALUES (\''.$biblio_id.'\', \''.$subject_id.'\')';
+      $q_sbibliosubject = $dbs->query($s_sbibliosubject);
+      $subject_id = $dbs->lastInsertId();
       #return $author_id;
       return TRUE;
     } else {

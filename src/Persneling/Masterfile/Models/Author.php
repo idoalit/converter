@@ -99,11 +99,14 @@ class Author
   }
 
 
-  public function createAuthor($dbs, $author_name)
+  #public function createAuthor($dbs, $author_name)
+  public function createAuthor($dbs, $author)
   {
-    $is_exist = $this->countAuthor($dbs, 'WHERE author_name=\''.$author_name.'\'');
+    #$is_exist = $this->countAuthor($dbs, 'WHERE author_name=\''.$author_name.'\'');
+    $is_exist = $this->countAuthor($dbs, 'WHERE author_name=\''.$author['name'].'\'');
     if (!$is_exist) {
-      $s_sauthor = 'INSERT INTO mst_author (author_name) VALUES (\''.$author_name.'\')';
+      #$s_sauthor = 'INSERT INTO mst_author (author_name) VALUES (\''.$author_name.'\')';
+      $s_sauthor = 'INSERT INTO mst_author (author_name) VALUES (\''.$author['name'].'\')';
       $q_sauthor = $dbs->query($s_sauthor);
       $author_id = $dbs->lastInsertId();
       return $author_id;
@@ -124,22 +127,26 @@ class Author
     }
   }
 
-  public function fgetAuthorIdByName($dbs, $author_name)
+  #public function fgetAuthorIdByName($dbs, $author_name)
+  public function fgetAuthorIdByName($dbs, $author=array())
   {
-    $sql = 'SELECT * FROM mst_author WHERE author_name=\''.$author_name.'\'';
-    #die($sql);
-    $stm = $dbs->query($sql);
-    $res = $stm->fetch(\PDO::FETCH_ASSOC);
-    #echo ($res['author_id']);
-    #die();
-    if (empty($res)) {
-    #return FALSE;
-    return $this->createAuthor($dbs, $author_name);
-    } else {
-      #die($res['author_id']);
-      #echo($res['author_id']);
-      #die('<hr />tesdah');
-      return $res['author_id'];
+    if (!empty($author['name'])) {
+      $sql = 'SELECT * FROM mst_author WHERE author_name=\''.$author['name'].'\'';
+      #die($sql);
+      $stm = $dbs->query($sql);
+      $res = $stm->fetch(\PDO::FETCH_ASSOC);
+      #echo ($res['author_id']);
+      #die();
+      if (empty($res)) {
+      #return FALSE;
+      #return $this->createAuthor($dbs, $author_name);
+      return $this->createAuthor($dbs, $author);
+      } else {
+        #die($res['author_id']);
+        #echo($res['author_id']);
+        #die('<hr />tesdah');
+        return $res['author_id'];
+      }
     }
   }
 

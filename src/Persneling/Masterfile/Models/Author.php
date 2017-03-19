@@ -5,14 +5,9 @@ class Author
 {
   public $author_id = NULL;
   public $author_name = NULL;
-  #public $coll = array();
-  #public $author = array ();
-  #protected $author_id = NULL;
 
   public function __construct()
   {
-    #$this->coll['title'] = NULL;
-    #echo 'Slims\Bibliography\Collection()';
   }
 
   public function set_authorId($value)
@@ -28,7 +23,6 @@ class Author
   public static function tereak()
   {
     return 'EHLOOOO';
-    #die('hmmmm');
   }
 
   public function get_authorId()
@@ -40,16 +34,6 @@ class Author
   {
     return $this->author_name;
   }
-
-  #public function set_authorId($data)
-  #{
-  #  $this->author_id = (integer) $data;
-  #}
-
-  #public function get_authorId()
-  #{
-  #  return $this->author_id;
-  #}
 
   public function testing()
   {
@@ -99,14 +83,18 @@ class Author
   }
 
 
-  #public function createAuthor($dbs, $author_name)
   public function createAuthor($dbs, $author)
   {
-    #$is_exist = $this->countAuthor($dbs, 'WHERE author_name=\''.$author_name.'\'');
-    $is_exist = $this->countAuthor($dbs, 'WHERE author_name=\''.$author['name'].'\'');
+    if ( (empty($author['authority_type'])) OR (is_null($author['authority_type'])) ) {
+      $authority_type = 'p';
+    } elseif ( ($author['authority_type']==='p') OR ($author['authority_type']==='o') OR ($author['authority_type']==='c') ) {
+      $authority_type = $author['authority_type'];
+    } else {
+      $authority_type = 'p';
+    }
+    $is_exist = $this->countAuthor($dbs, 'WHERE author_name=\''.$author['name'].'\' AND authority_type=\''.$authority_type.'\'');
     if (!$is_exist) {
-      #$s_sauthor = 'INSERT INTO mst_author (author_name) VALUES (\''.$author_name.'\')';
-      $s_sauthor = 'INSERT INTO mst_author (author_name) VALUES (\''.$author['name'].'\')';
+      $s_sauthor = 'INSERT INTO mst_author (author_name, authority_type) VALUES (\''.addslashes($author['name']).'\',\''.$authority_type.'\')';
       $q_sauthor = $dbs->query($s_sauthor);
       $author_id = $dbs->lastInsertId();
       return $author_id;
@@ -127,37 +115,41 @@ class Author
     }
   }
 
-  #public function fgetAuthorIdByName($dbs, $author_name)
   public function fgetAuthorIdByName($dbs, $author=array())
   {
     if (!empty($author['name'])) {
-      $sql = 'SELECT * FROM mst_author WHERE author_name=\''.$author['name'].'\'';
-      #die($sql);
+      if ( (empty($author['authority_type'])) OR (is_null($author['authority_type'])) ) {
+        $authority_type = 'p';
+      } elseif ( ($author['authority_type']==='p') OR ($author['authority_type']==='o') OR ($author['authority_type']==='c') ) {
+        $authority_type = $author['authority_type'];
+      } else {
+        $authority_type = 'p';
+      }
+      $sql = 'SELECT * FROM mst_author WHERE author_name=\''.$author['name'].'\' AND authority_type=\''.$authority_type.'\'';
       $stm = $dbs->query($sql);
       $res = $stm->fetch(\PDO::FETCH_ASSOC);
-      #echo ($res['author_id']);
-      #die();
       if (empty($res)) {
-      #return FALSE;
-      #return $this->createAuthor($dbs, $author_name);
-      return $this->createAuthor($dbs, $author);
+        return $this->createAuthor($dbs, $author);
       } else {
-        #die($res['author_id']);
-        #echo($res['author_id']);
-        #die('<hr />tesdah');
         return $res['author_id'];
       }
     }
   }
 
-  public function createRelBiblioAuthor($dbs, $biblio_id, $author_id)
+  public function createRelBiblioAuthor($dbs, $biblio_id, $author_id, $authority_level='1')
   {
+    if (is_numeric($authority_level)) {
+      if ($authority_level > 11) {
+        $authority_level = '1';
+      }
+    } else {
+      $authority_level = '1';
+    }
     $is_exist = $this->countRelBiblioAuthor($dbs, 'WHERE biblio_id=\''.$biblio_id.'\' AND author_id=\''.$author_id.'\'');
     if (!$is_exist) {
-      $s_sbiblioauthor = 'INSERT INTO biblio_author (biblio_id, author_id) VALUES (\''.$biblio_id.'\', \''.$author_id.'\')';
+      $s_sbiblioauthor = 'INSERT INTO biblio_author (biblio_id, author_id, level) VALUES (\''.$biblio_id.'\', \''.$author_id.'\',\''.$authority_level.'\')';
       $q_sbiblioauthor = $dbs->query($s_sbiblioauthor);
       $author_id = $dbs->lastInsertId();
-      #return $author_id;
       return TRUE;
     } else {
       return FALSE;

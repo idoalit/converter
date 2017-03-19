@@ -4,14 +4,11 @@ use Slims\Persneling\Bibliography\Models\Collection as MC;
 
 class Collection
 {
-  #public $is_newcoll = TRUE;
   public $cid = NULL;
   public $coll = array();
 
   public function __construct()
   {
-    #$this->coll['title'] = NULL;
-    #echo 'Slims\Bibliography\Collection()';
   }
 
   protected function set_cid($cid = NULL)
@@ -44,11 +41,14 @@ class Collection
     $this->set_place();
     $this->set_classification();
     $this->set_notes();
+    $this->set_image();
     $this->set_specDetailInfo();
     $this->set_inputDate();
     $this->set_lastUpdate();
     $this->set_uid();
     $this->set_authors();
+    $this->set_subjects();
+    $this->set_items();
   }
 
   protected function get_newColl()
@@ -126,6 +126,11 @@ class Collection
     $this->coll['notes'] = $notes;
   }
 
+  protected function set_image($image=NULL)
+  {
+    $this->coll['image'] = $image;
+  }
+
   protected function set_specDetailInfo($spec_detail_info=NULL)
   {
     $this->coll['spec_detail_info'] = $spec_detail_info;
@@ -148,44 +153,24 @@ class Collection
 
   protected function set_authors($authors=array())
   {
-    #if (empty($authors)) {
-    #} else {
-    #}
     $this->coll['authors'] = $authors;
   }
 
-  #protected function newCollection()
-  #{
-  #  $this->setTitle();
-  #}
+  protected function set_subjects($subjects=array())
+  {
+    $this->coll['subjects'] = $subjects;
+  }
 
-  #protected function setIs_newcoll($cid)
-  #{
-  #  if (!is_null($cid)) {
-  #    if (is_numeric($cid)) {
-  #      $this->is_newcoll = FALSE;
-  #    } else {
-  #      $this->is_newcoll = TRUE;
-  #    }
-  #  } else {
-  #    $this->is_newcoll = TRUE;
-  #  }
-  #}
-
-  #protected function getIs_newcoll()
-  #{
-  #  return $this->is_newcoll;
-  #}
+  protected function set_items($items=array())
+  {
+    $this->coll['items'] = $items;
+  }
 
 
   public function collection_load($cid = NULL)
   {
     $this->set_cid($cid);
-    #$this->setIs_newcoll($cid);
-    #$this->setTitle($cid);
-    #$this->getIs_newcoll();
     if (is_null($this->get_cid())) {
-      #echo 'Buku baru';
       $this->set_newColl();
       return $this->get_newColl();
     } else {
@@ -197,7 +182,6 @@ class Collection
   {
     $mc = new MC;
     $mc->collection_save($dbs, $coll);
-    #die('sinikah 3');
   }
 
 

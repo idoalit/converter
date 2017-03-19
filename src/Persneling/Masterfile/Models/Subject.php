@@ -106,7 +106,7 @@ class Subject
     $is_exist = $this->countSubject($dbs, 'WHERE topic=\''.$subject['name'].'\'');
     if (!$is_exist) {
       #$s_ssubject = 'INSERT INTO mst_topic (topic) VALUES (\''.$subject_name.'\')';
-      $s_ssubject = 'INSERT INTO mst_topic (topic) VALUES (\''.$subject['name'].'\')';
+      $s_ssubject = 'INSERT INTO mst_topic (topic) VALUES (\''.addslashes($subject['name']).'\')';
       $q_ssubject = $dbs->query($s_ssubject);
       $subject_id = $dbs->lastInsertId();
       return $subject_id;

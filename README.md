@@ -39,8 +39,11 @@ $data->authors[1]['name'] = 'Dian Tirtha Kusuma';
 $data->subjects[0]['name'] = 'Fisika';
 $data->subjects[1]['name'] = 'Perpustakaan';
 $data->items[0]['item_code'] = 'B000000001';
+$data->items[0]['coll_type_name'] = 'AV';
 $data->items[1]['item_code'] = 'B000000002';
+$data->items[1]['coll_type_name'] = 'AVR';
 $data->items[2]['item_code'] = 'B000000003';
+$data->items[2]['coll_type_name'] = 'Tandon';
 $koleksi->collection_save($dbs, $data);
 ```
 Done, data sudah masuk ke SLiMS. Silahkan mencoba.

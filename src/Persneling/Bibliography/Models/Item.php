@@ -1,5 +1,6 @@
 <?php
 namespace Slims\Persneling\Bibliography\Models;
+use Slims\Persneling\Masterfile\Models\Colltype as Colltype;
 
 class Item
 {
@@ -102,11 +103,34 @@ class Item
   #public function createAuthor($dbs, $author_name)
   public function createItem($dbs, $item, $biblio_id)
   {
-    #$is_exist = $this->countAuthor($dbs, 'WHERE author_name=\''.$author_name.'\'');
+
     $is_exist = $this->countItem($dbs, 'WHERE item_code=\''.$item['item_code'].'\'');
     if (!$is_exist) {
+
+
+      $is_ctm_exist = FALSE;
+      if (!empty($item['coll_type_name'])) {
+        $is_ctm_exist = TRUE;
+      }
+      if (!is_null($item['coll_type_name'])) {
+        $is_ctm_exist = TRUE;
+      }
+      if (trim($item['coll_type_name']) != '') {
+        $is_ctm_exist = TRUE;
+      }
+      $coll_type_id = NULL;
+      if ($is_ctm_exist) {
+        $colltype = new Colltype;
+        $coll_type_id = $colltype->fgetCollTypeIdByName($dbs, $item['coll_type_name']);
+      }
+
+
       #$s_sauthor = 'INSERT INTO mst_author (author_name) VALUES (\''.$author_name.'\')';
-      $s_sitem = 'INSERT INTO item (biblio_id, item_code) VALUES (\''.$biblio_id.'\', \''.$item['item_code'].'\')';
+      #$s_sitem = 'INSERT INTO item (biblio_id, item_code) VALUES (\''.$biblio_id.'\', \''.$item['item_code'].'\')';
+      $s_sitem = 'INSERT INTO item ';
+      $s_sitem .= '(biblio_id, item_code, coll_type_id) ';
+      $s_sitem .= 'VALUES ';
+      $s_sitem .= '(\''.$biblio_id.'\', \''.$item['item_code'].'\',\''.$coll_type_id.'\')';
       $q_sitem = $dbs->query($s_sitem);
       $item_id = $dbs->lastInsertId();
       return $item_id;
@@ -150,19 +174,6 @@ class Item
     }
   }
 
-  #public function createRelBiblioAuthor($dbs, $biblio_id, $author_id)
-  #{
-  #  $is_exist = $this->countRelBiblioAuthor($dbs, 'WHERE biblio_id=\''.$biblio_id.'\' AND author_id=\''.$author_id.'\'');
-  #  if (!$is_exist) {
-  #    $s_sbiblioauthor = 'INSERT INTO biblio_author (biblio_id, author_id) VALUES (\''.$biblio_id.'\', \''.$author_id.'\')';
-  #    $q_sbiblioauthor = $dbs->query($s_sbiblioauthor);
-  #    $author_id = $dbs->lastInsertId();
-      #return $author_id;
-  #    return TRUE;
-  #  } else {
-  #    return FALSE;
-  #  }
-  #}
 
 
 }

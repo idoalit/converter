@@ -41,16 +41,6 @@ class Publisher
     return $this->publisher_name;
   }
 
-  #public function set_publisherId($data)
-  #{
-  #  $this->publisher_id = (integer) $data;
-  #}
-
-  #public function get_publisherId()
-  #{
-  #  return $this->publisher_id;
-  #}
-
   public function testing()
   {
     return TRUE;

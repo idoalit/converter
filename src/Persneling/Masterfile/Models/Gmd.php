@@ -84,6 +84,7 @@ class Gmd
 
   public function createGmd($dbs, $gmd_name)
   {
+    $gmd_name = addslashes($gmd_name);
     $is_exist = $this->countGmd($dbs, 'WHERE gmd_name=\''.$gmd_name.'\'');
     if (!$is_exist) {
       $s_sgmd = 'INSERT INTO mst_gmd (gmd_name) VALUES (\''.$gmd_name.'\')';
@@ -97,6 +98,7 @@ class Gmd
 
   public function getGmdIdByName($dbs, $gmd_name)
   {
+    $gmd_name = addslashes($gmd_name);
     $sql = 'SELECT * FROM mst_gmd WHERE gmd_name=\''.$gmd_name.'\'';
     $stm = $dbs->query($sql);
     $res = $stm->fetch(\PDO::FETCH_ASSOC);
@@ -109,6 +111,7 @@ class Gmd
 
   public function fgetGmdIdByName($dbs, $gmd_name)
   {
+    $gmd_name = addslashes($gmd_name);
     $sql = 'SELECT * FROM mst_gmd WHERE gmd_name=\''.$gmd_name.'\'';
     $stm = $dbs->query($sql);
     $res = $stm->fetch(\PDO::FETCH_ASSOC);

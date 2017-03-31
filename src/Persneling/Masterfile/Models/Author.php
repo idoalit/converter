@@ -92,7 +92,7 @@ class Author
     } else {
       $authority_type = 'p';
     }
-    $is_exist = $this->countAuthor($dbs, 'WHERE author_name=\''.$author['name'].'\' AND authority_type=\''.$authority_type.'\'');
+    $is_exist = $this->countAuthor($dbs, 'WHERE author_name=\''.addslashes($author['name']).'\' AND authority_type=\''.$authority_type.'\'');
     if (!$is_exist) {
       $s_sauthor = 'INSERT INTO mst_author (author_name, authority_type) VALUES (\''.addslashes($author['name']).'\',\''.$authority_type.'\')';
       $q_sauthor = $dbs->query($s_sauthor);
@@ -105,6 +105,7 @@ class Author
 
   public function getAuthorIdByName($dbs, $author_name)
   {
+    $author_name = addslashes($author_name);
     $sql = 'SELECT * FROM mst_author WHERE author_name=\''.$author_name.'\'';
     $stm = $dbs->query($sql);
     $res = $stm->fetch(\PDO::FETCH_ASSOC);
@@ -125,7 +126,7 @@ class Author
       } else {
         $authority_type = 'p';
       }
-      $sql = 'SELECT * FROM mst_author WHERE author_name=\''.$author['name'].'\' AND authority_type=\''.$authority_type.'\'';
+      $sql = 'SELECT * FROM mst_author WHERE author_name=\''.addslashes($author['name']).'\' AND authority_type=\''.$authority_type.'\'';
       $stm = $dbs->query($sql);
       $res = $stm->fetch(\PDO::FETCH_ASSOC);
       if (empty($res)) {

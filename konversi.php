@@ -82,4 +82,3 @@ if (($handle = fopen("contoh_data_konversi.csv", "r")) !== FALSE) {
   }
   fclose($handle);
 }
-

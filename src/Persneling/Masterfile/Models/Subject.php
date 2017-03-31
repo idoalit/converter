@@ -103,7 +103,7 @@ class Subject
   public function createSubject($dbs, $subject)
   {
     #$is_exist = $this->countSubject($dbs, 'WHERE topic=\''.$subject_name.'\'');
-    $is_exist = $this->countSubject($dbs, 'WHERE topic=\''.$subject['name'].'\'');
+    $is_exist = $this->countSubject($dbs, 'WHERE topic=\''.addslashes($subject['name']).'\'');
     if (!$is_exist) {
       #$s_ssubject = 'INSERT INTO mst_topic (topic) VALUES (\''.$subject_name.'\')';
       $s_ssubject = 'INSERT INTO mst_topic (topic) VALUES (\''.addslashes($subject['name']).'\')';
@@ -117,6 +117,7 @@ class Subject
 
   public function getSubjectIdByName($dbs, $subject_name)
   {
+    $subject_name = addslashes($subject_name);
     $sql = 'SELECT * FROM mst_topic WHERE topic=\''.$subject_name.'\'';
     $stm = $dbs->query($sql);
     $res = $stm->fetch(\PDO::FETCH_ASSOC);
@@ -132,7 +133,7 @@ class Subject
   {
     if (!empty($subject['name'])) {
       #$sql = 'SELECT * FROM mst_topic WHERE topic=\''.$subject_name.'\'';
-      $sql = 'SELECT * FROM mst_topic WHERE topic=\''.$subject['name'].'\'';
+      $sql = 'SELECT * FROM mst_topic WHERE topic=\''.addslashes($subject['name']).'\'';
       #die($sql);
       $stm = $dbs->query($sql);
       $res = $stm->fetch(\PDO::FETCH_ASSOC);

@@ -69,6 +69,7 @@ class Colltype
 
   public function createCollType($dbs, $coll_type_name)
   {
+    $coll_type_name = addslashes($coll_type_name);
     $is_exist = $this->countCollType($dbs, 'WHERE coll_type_name=\''.$coll_type_name.'\'');
     if (!$is_exist) {
       $s_scolltype = 'INSERT INTO mst_coll_type (coll_type_name) VALUES (\''.$coll_type_name.'\')';
@@ -82,6 +83,7 @@ class Colltype
 
   public function getCollTypeIdByName($dbs, $coll_type_name)
   {
+    $coll_type_name = addslashes($coll_type_name);
     $sql = 'SELECT * FROM mst_coll_type WHERE coll_type_name=\''.$coll_type_name.'\'';
     $stm = $dbs->query($sql);
     $res = $stm->fetch(\PDO::FETCH_ASSOC);
@@ -94,6 +96,7 @@ class Colltype
 
   public function fgetCollTypeIdByName($dbs, $coll_type_name)
   {
+    $coll_type_name = addslashes($coll_type_name);
     $sql = 'SELECT * FROM mst_coll_type WHERE coll_type_name=\''.$coll_type_name.'\'';
     #die($sql);
     $stm = $dbs->query($sql);

@@ -103,6 +103,9 @@ if (isset($_POST['konversikan'])) {
         if ($value == 'coll_type_name') {
           $items[$n]['coll_type_name'] = $strData;
         }
+        if ($value == 'site') {
+          $items[$n]['site'] = $strData;
+        }
         if ($value == 'topic') {
           $subject[] = $strData;
         }
@@ -129,8 +132,9 @@ if (isset($_POST['konversikan'])) {
       // items
       if ( ( (!empty($items)) OR (!is_null($items)) ) AND ($items != '') ) {
         foreach ($items as $k => $v) {
-          $imported_data->items[$k]['item_code'] = trim($v['item_code']);
-          $imported_data->items[$k]['coll_type_name'] = trim($v['coll_type_name']);
+          $imported_data->items[$k]['item_code'] = isset($v['item_code']) ? trim($v['item_code']) : '';
+          $imported_data->items[$k]['coll_type_name'] = isset($v['coll_type_name']) ? trim($v['coll_type_name']) : '';
+          $imported_data->items[$k]['site'] = isset($v['site']) ? trim($v['site']) : '';
         }
       }
 
@@ -138,6 +142,7 @@ if (isset($_POST['konversikan'])) {
         $n++;
         continue;
       }
+      
       $koleksi->collection_save($dbs, $imported_data);
       $n++;
     }

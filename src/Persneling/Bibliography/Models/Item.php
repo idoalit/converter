@@ -123,14 +123,24 @@ class Item
         $colltype = new Colltype;
         $coll_type_id = $colltype->fgetCollTypeIdByName($dbs, $item['coll_type_name']);
       }
+      $site = NULL;
+      if (empty($item['site'])) {
+        $site = NULL;
+      } else {
+        if (trim($item['site']) != '') {
+          $site = addslashes($item['site']);
+        } else {
+          $site = NULL;
+        }
+      }
 
 
       #$s_sauthor = 'INSERT INTO mst_author (author_name) VALUES (\''.$author_name.'\')';
       #$s_sitem = 'INSERT INTO item (biblio_id, item_code) VALUES (\''.$biblio_id.'\', \''.$item['item_code'].'\')';
       $s_sitem = 'INSERT INTO item ';
-      $s_sitem .= '(biblio_id, item_code, coll_type_id) ';
+      $s_sitem .= '(biblio_id, item_code, coll_type_id, site) ';
       $s_sitem .= 'VALUES ';
-      $s_sitem .= '(\''.$biblio_id.'\', \''.$item['item_code'].'\',\''.$coll_type_id.'\')';
+      $s_sitem .= '(\''.$biblio_id.'\', \''.$item['item_code'].'\',\''.$coll_type_id.'\',\''.$site.'\')';
       $q_sitem = $dbs->query($s_sitem);
       $item_id = $dbs->lastInsertId();
       return $item_id;

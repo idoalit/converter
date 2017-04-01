@@ -84,6 +84,7 @@ class Place
 
   public function createPlace($dbs, $place_name)
   {
+    $place_name = addslashes($place_name);
     $is_exist = $this->countPlace($dbs, 'WHERE place_name=\''.$place_name.'\'');
     if (!$is_exist) {
       $s_splace = 'INSERT INTO mst_place (place_name) VALUES (\''.$place_name.'\')';
@@ -97,6 +98,7 @@ class Place
 
   public function getPlaceIdByName($dbs, $place_name)
   {
+    $place_name = addslashes($place_name);
     $sql = 'SELECT * FROM mst_place WHERE place_name=\''.$place_name.'\'';
     $stm = $dbs->query($sql);
     $res = $stm->fetch(\PDO::FETCH_ASSOC);
@@ -109,6 +111,7 @@ class Place
 
   public function fgetPlaceIdByName($dbs, $place_name)
   {
+    $place_name = addslashes($place_name);
     $sql = 'SELECT * FROM mst_place WHERE place_name=\''.$place_name.'\'';
     #die($sql);
     $stm = $dbs->query($sql);

@@ -74,6 +74,7 @@ class Publisher
 
   public function createPublisher($dbs, $publisher_name)
   {
+    $publisher_name = addslashes($publisher_name);
     $is_exist = $this->countPublisher($dbs, 'WHERE publisher_name=\''.$publisher_name.'\'');
     if (!$is_exist) {
       $s_spublisher = 'INSERT INTO mst_publisher (publisher_name) VALUES (\''.$publisher_name.'\')';
@@ -87,6 +88,7 @@ class Publisher
 
   public function getPublisherIdByName($dbs, $publisher_name)
   {
+    $publisher_name = addslashes($publisher_name);
     $sql = 'SELECT * FROM mst_publisher WHERE publisher_name=\''.$publisher_name.'\'';
     $stm = $dbs->query($sql);
     $res = $stm->fetch(\PDO::FETCH_ASSOC);
@@ -99,6 +101,7 @@ class Publisher
 
   public function fgetPublisherIdByName($dbs, $publisher_name)
   {
+    $publisher_name = addslashes($publisher_name);
     $sql = 'SELECT * FROM mst_publisher WHERE publisher_name=\''.$publisher_name.'\'';
     #die($sql);
     $stm = $dbs->query($sql);

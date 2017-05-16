@@ -164,5 +164,26 @@ class Item
   #  }
   #}
 
+  public function getItemsListByBiblioId($dbs, $biblio_id)
+  {
+    $sItem = array();
+    $sItem = 'SELECT i.* ';
+    $sItem .= 'FROM item AS i ';
+    $sItem .= 'WHERE ';
+    $sItem .= 'biblio_id=\''.$biblio_id.'\'';
+
+    $qItem = $dbs->query($sItem);
+    if ($qItem->rowCount() > 0) {
+      $rItem = $qItem->fetchAll(\PDO::FETCH_ASSOC);
+      foreach ($rItem as $key => $value) {
+        $items[$key]['item_code'] = $value['item_code'];
+        #$items[$key]['topic_type'] = $value['topic_type'];
+        #$items[$key]['topic_level'] = $value['level'];
+      }
+    }
+    return $items;
+  }
+
+
 
 }

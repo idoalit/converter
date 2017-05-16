@@ -1,17 +1,7 @@
-BACASAYA
-========
-
-Apa itu Persneling?
---------------------
-
-Persneling adalah API for SLiMS (slims.web.id). Proyek hobi, sepertinya ga bakal serius. Tools ini saya buat untuk kebutuhan sederhana, memudahkan konversi data ke SLiMS. API ini masih sederhana, baru bisa input baru, belum bisa edit data. Cara penggunaanya sederhana, seperti dibawah ini:
-
-
-```
 <?php 
 require "vendor/autoload.php";
 
-$dbs = new PDO('mysql:host=localhost; dbname=dev_slims7; charset=utf8mb4', 'dbusername', 'dbuserpassword');
+$dbs = new PDO('mysql:host=localhost; dbname=dbname; charset=utf8mb4', 'dbusername', 'dbpassword');
 $dbs->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 $dbs->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 
@@ -21,9 +11,9 @@ $koleksi = new C;
 
 $data = $koleksi->collection_load();
 
-#$data->biblio_id = 1; #define biblio_id if to update a biblio data
-$data->title = 'PHP for librarian';
-$data->sor = 'Hendro Wicaksono';
+#$data->biblio_id = 1;
+$data->title = 'PHP for librarian 3';
+$data->sor = 'Hendro Wicaksono 3';
 $data->gmd_name = 'Tesis';
 $data->edition = '2nd ed.';
 $data->isbn_issn = '123-456-789-0';
@@ -38,7 +28,7 @@ $data->classification = '330.05';
 $data->notes = 'Disini adalah catatan alias notes.';
 $data->spec_detail_info = 'spec_detail_info disini';
 $data->uid = '1';
-#$data->authors = NULL; #define null to remove author info
+#$data->authors = NULL;
 $data->authors[0]['name'] = 'Hendro Wicaksono';
 $data->authors[0]['authority_type'] = 'p';
 $data->authors[0]['authority_level'] = '1';
@@ -48,10 +38,10 @@ $data->authors[1]['authority_level'] = '2';
 $data->authors[2]['name'] = 'Konferensi Perpustakaan Digital Indonesia';
 $data->authors[2]['authority_type'] = 'c';
 $data->authors[2]['authority_level'] = '3';
-#$data->subjects = NULL; #define null to remove subject info
+#$data->subjects = NULL;
 $data->subjects[0]['name'] = 'Fisika';
 $data->subjects[1]['name'] = 'Perpustakaan';
-#$data->items = NULL; #define null to remove item info
+#$data->items = NULL;
 $data->items[0]['item_code'] = 'B000000011';
 $data->items[0]['call_number'] = 'LEN 330 WIC h';
 $data->items[0]['coll_type_name'] = 'AV';
@@ -113,7 +103,3 @@ $data->items[2]['last_update'] = '2017-05-16 09:15:38';
 $data->items[2]['uid'] = 1;
 
 $koleksi->collection_save($dbs, $data);
-
-
-```
-Done, data sudah masuk ke SLiMS. Silahkan mencoba.

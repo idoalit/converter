@@ -56,6 +56,11 @@ class Collection
     return (object) $this->coll;
   }
 
+  protected function set_biblioId($biblio_id)
+  {
+    $this->coll['biblio_id'] = $biblio_id;
+  }
+
   protected function set_title($title=NULL)
   {
     $this->coll['title'] = $title;
@@ -167,14 +172,16 @@ class Collection
   }
 
 
-  public function collection_load($cid = NULL)
+  public function collection_load($dbs = NULL, $cid = NULL)
   {
     $this->set_cid($cid);
     if (is_null($this->get_cid())) {
       $this->set_newColl();
       return $this->get_newColl();
     } else {
-      echo 'Edit Buku';
+      #echo 'Edit Buku';
+      $mc = new MC;
+      return $mc->collection_load($dbs, $cid);
     }
   }
 
@@ -184,5 +191,23 @@ class Collection
     $mc->collection_save($dbs, $coll);
   }
 
+  /**
+  protected function set_collInfo($dbs, $cid)
+  {
+    $sBiblio = 'SELECT b.*, gmd.* ';
+    $sBiblio .= 'FROM biblio AS b, mst_gmd AS gmd ';
+    $sBiblio .= 'WHERE b.biblio_id=\''.$cid.'\' ';
+    $sBiblio .= 'AND b.gmd_id=gmd.gmd_id';
+    #$qBiblio = $dbs->query($sBiblio);
+    $qBiblio = $dbs->query($sBiblio);
+    $rBiblio = $qBiblio->fetch(\PDO::FETCH_ASSOC);
+    $this->set_biblioId($rBiblio['biblio_id']);
+    $this->set_title($rBiblio['title']);
+    $this->set_sor($rBiblio['sor']);
+    $this->set_gmdName($rBiblio['gmd_name']);
+    #return $rBiblio;
+    return $this->get_newColl();
+  }
+  **/
 
 }

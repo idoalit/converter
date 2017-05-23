@@ -6,7 +6,7 @@ $dbs->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 $dbs->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 
 use Slims\Persneling\Bibliography\Collection as C;
- 
+
 $koleksi = new C;
 
 $data = $koleksi->collection_load();

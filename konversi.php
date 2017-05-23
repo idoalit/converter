@@ -1,4 +1,4 @@
-<?php 
+<?php
 require "vendor/autoload.php";
 $dbs = new PDO('mysql:host=localhost; dbname=dbname; charset=utf8mb4', 'dbusername', 'dbpassword');
 $dbs->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);

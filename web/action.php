@@ -100,11 +100,56 @@ if (isset($_POST['konversikan'])) {
         if ($value == 'item_code') {
           $items[$n]['item_code'] = $strData;
         }
+        if ($value == 'call_number') {
+          $items[$n]['call_number'] = $strData;
+        }
         if ($value == 'coll_type_name') {
           $items[$n]['coll_type_name'] = $strData;
         }
+        if ($value == 'inventory_code') {
+          $items[$n]['inventory_code'] = $strData;
+        }
+        if ($value == 'received_date') {
+          $items[$n]['received_date'] = $strData;
+        }
+        if ($value == 'supplier_name') {
+          $items[$n]['supplier_name'] = $strData;
+        }
+        if ($value == 'order_no') {
+          $items[$n]['order_no'] = $strData;
+        }
+        if ($value == 'location_name') {
+          $items[$n]['location_name'] = $strData;
+        }
+        if ($value == 'order_date') {
+          $items[$n]['order_date'] = $strData;
+        }
+        if ($value == 'item_status') {
+          $items[$n]['item_status'] = $strData;
+        }
         if ($value == 'site') {
           $items[$n]['site'] = $strData;
+        }
+        if ($value == 'source') {
+          $items[$n]['source'] = $strData;
+        }
+        if ($value == 'invoice') {
+          $items[$n]['invoice'] = $strData;
+        }
+        if ($value == 'price') {
+          $items[$n]['price'] = $strData;
+        }
+        if ($value == 'price_currency') {
+          $items[$n]['price_currency'] = $strData;
+        }
+        if ($value == 'invoice_date') {
+          $items[$n]['invoice_date'] = $strData;
+        }
+        if ($value == 'input_date') {
+          $items[$n]['input_date'] = $strData;
+        }
+        if ($value == 'last_update') {
+          $items[$n]['last_update'] = $strData;
         }
         if ($value == 'topic') {
           $subject[] = $strData;
@@ -133,8 +178,24 @@ if (isset($_POST['konversikan'])) {
       if ( ( (!empty($items)) OR (!is_null($items)) ) AND ($items != '') ) {
         foreach ($items as $k => $v) {
           $imported_data->items[$k]['item_code'] = isset($v['item_code']) ? trim($v['item_code']) : '';
+          $imported_data->items[$k]['call_number'] = isset($v['call_number']) ? trim($v['call_number']) : '';
           $imported_data->items[$k]['coll_type_name'] = isset($v['coll_type_name']) ? trim($v['coll_type_name']) : '';
+          $imported_data->items[$k]['inventory_code'] = isset($v['inventory_code']) ? trim($v['inventory_code']) : '';
+          $imported_data->items[$k]['received_date'] = isset($v['received_date']) ? trim($v['received_date']) : '';
+          $imported_data->items[$k]['supplier_name'] = isset($v['supplier_name']) ? trim($v['supplier_name']) : '';
+          $imported_data->items[$k]['order_no'] = isset($v['order_no']) ? trim($v['order_no']) : '';
+          $imported_data->items[$k]['location_name'] = isset($v['location_name']) ? trim($v['location_name']) : '';
+          $imported_data->items[$k]['order_date'] = isset($v['order_date']) ? trim($v['order_date']) : '';
+          $imported_data->items[$k]['item_status'] = isset($v['item_status']) ? trim($v['item_status']) : '';
           $imported_data->items[$k]['site'] = isset($v['site']) ? trim($v['site']) : '';
+          $imported_data->items[$k]['source'] = isset($v['source']) ? trim($v['source']) : '';
+          $imported_data->items[$k]['invoice'] = isset($v['invoice']) ? trim($v['invoice']) : '';
+          $imported_data->items[$k]['price'] = isset($v['price']) ? trim($v['price']) : '';
+          $imported_data->items[$k]['price_currency'] = isset($v['price_currency']) ? trim($v['price_currency']) : '';
+          $imported_data->items[$k]['invoice_date'] = isset($v['invoice_date']) ? trim($v['invoice_date']) : '';
+          $imported_data->items[$k]['input_date'] = isset($v['input_date']) ? trim($v['input_date']) : '';
+          $imported_data->items[$k]['last_update'] = isset($v['last_update']) ? trim($v['last_update']) : '';
+          $imported_data->items[$k]['uid'] = isset($v['uid']) ? trim($v['uid']) : '';
         }
       }
 
@@ -142,7 +203,7 @@ if (isset($_POST['konversikan'])) {
         $n++;
         continue;
       }
-      
+
       $koleksi->collection_save($dbs, $imported_data);
       $n++;
     }

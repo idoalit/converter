@@ -166,5 +166,37 @@ class Subject
     }
   }
 
+  public function removeRelBiblioSubject($dbs, $biblio_id)
+  {
+    if (is_numeric($biblio_id)) {
+      $s_rrbs = 'DELETE FROM biblio_topic WHERE biblio_id=\''.$biblio_id.'\'';
+      #echo $s_rrba;die();
+      $q_rrbs = $dbs->query($s_rrbs);
+    }
+  }
+
+  public function getSubjectsListByBiblioId($dbs, $biblio_id)
+  {
+    $subjects = array();
+    $sSubject = 'SELECT b.biblio_id, bt.level, t.* ';
+    $sSubject .= 'FROM biblio AS b, biblio_topic AS bt, mst_topic AS t ';
+    $sSubject .= 'WHERE ';
+    $sSubject .= 'b.biblio_id=bt.biblio_id ';
+    $sSubject .= 'AND bt.topic_id=t.topic_id ';
+    $sSubject .= 'AND b.biblio_id=\''.$biblio_id.'\'';
+    $qSubject = $dbs->query($sSubject);
+    if ($qSubject->rowCount() > 0) {
+      $rSubject = $qSubject->fetchAll(\PDO::FETCH_ASSOC);
+      foreach ($rSubject as $key => $value) {
+        $subjects[$key]['name'] = $value['topic'];
+        $subjects[$key]['topic_type'] = $value['topic_type'];
+        $subjects[$key]['topic_level'] = $value['level'];
+      }
+    }
+    return $subjects;
+  }
+
+
+
 
 }

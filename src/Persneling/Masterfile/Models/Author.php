@@ -157,5 +157,34 @@ class Author
     }
   }
 
+  public function removeRelBiblioAuthor($dbs, $biblio_id)
+  {
+    if (is_numeric($biblio_id)) {
+      $s_rrba = 'DELETE FROM biblio_author WHERE biblio_id=\''.$biblio_id.'\'';
+      #echo $s_rrba;die();
+      $q_rrba = $dbs->query($s_rrba);
+    }
+  }
+
+  public function getAuthorsListByBiblioId($dbs, $biblio_id)
+  {
+    $authors = array();
+    $sAuthor = 'SELECT b.biblio_id, ba.level, a.* ';
+    $sAuthor .= 'FROM biblio AS b, biblio_author AS ba, mst_author AS a ';
+    $sAuthor .= 'WHERE ';
+    $sAuthor .= 'b.biblio_id=ba.biblio_id ';
+    $sAuthor .= 'AND ba.author_id=a.author_id ';
+    $sAuthor .= 'AND b.biblio_id=\''.$biblio_id.'\'';
+    $qAuthor = $dbs->query($sAuthor);
+    if ($qAuthor->rowCount() > 0) {
+      $rAuthor = $qAuthor->fetchAll(\PDO::FETCH_ASSOC);
+      foreach ($rAuthor as $key => $value) {
+        $authors[$key]['name'] = $value['author_name'];
+        $authors[$key]['authority_type'] = $value['authority_type'];
+        $authors[$key]['authority_level'] = $value['level'];
+      }
+    }
+    return $authors;
+  }
 
 }

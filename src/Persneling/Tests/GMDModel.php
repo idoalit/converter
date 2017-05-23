@@ -14,7 +14,7 @@ class GmdTest extends PHPUnit_Framework_TestCase
   public function setUp()
   {
     $this->gmdmodel = new GMDModel;
-    $this->dbs = new PDO('mysql:host=localhost; dbname=dev_slims7; charset=utf8mb4', 'root', 's0beautifulday');
+    $this->dbs = new PDO('mysql:host=localhost; dbname=dev_slims7; charset=utf8mb4', 'root', '_');
     $this->dbs->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     $this->dbs->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
   }
